@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>디앤디플랫폼</title>
+<link rel="stylesheet" type="text/css" href="../css/base.css" />
+<link rel="stylesheet" type="text/css" href="../css/content.css" />
+<script src="../js/jquery.min.js"></script>
+<script src="../js/jquery-ui.min.js"></script>
+<script src="../js/jquery.plugin.js"></script>
+<script src="../js/common.js"></script>
+<style>
+    canvas {
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+    }
+	.chartjs-wrapper canvas {
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+	}
+</style>
+</head>
+<body>
+<div id="wrap">
+	<!-- 상단영역 -->
+	<div style="height: 30px;position: fixed;top: 0px;z-index: 10;width: 100%;">
+		<div id="top_header" style="height:30px;background: #2495cf;color: #fff;line-height: 28px;">
+			<span style="width:31.5%;padding-left: 5px;">현재 사용량</span>
+			<span style="width:31.5%;margin-left:27.5%;">일간 사용량</span>
+			<span style="width:31.5%;margin-left:27.5%;">월간 사용량</span>
+		</div>
+	</div>
+	<div id="header" style="height:90px;position: fixed;top: 30px;">	
+		<div style="width:31.5%;position: fixed;">
+			<canvas id="line_canvas" width="400" height="68" ></canvas>
+		</div>
+		<div style="width:31.5%;margin-left:31.5%;position: fixed;">
+			<canvas id="bar_canvas_1" width="400" height="68" ></canvas>
+		</div>
+		<div style="width:31.5%;margin-left:63%;position: fixed;">
+			<canvas id="bar_canvas_2" width="400" height="68" ></canvas>
+		</div>		
+		<!-- <h1 class="logo"><a href="#">(주)디앤디플랫폼</a><span>서비스 네임</span></h1> -->
+		<div class="hTop" style="top: 0px;">
+			<ul>
+				<!-- 사진영역 -->
+				<!-- <li class="pic"><img src="" alt="" /></li> 
+				<li class="info">
+					
+				</li>
+				<span>관리자(admin)</span> -->
+				<li class="logout"><a href="#">로그아웃</a></li>
+			</ul>
+		</div>
+	</div>
+	<!-- //상단영역 -->
+	<div id="container_left">
+		<!-- 컨테이너영역 -->
+		<div id="content_map">
+			<div id="daumMap" style="width:100%;height: 939px;"></div>
+		</div>					
+		<div id="lnb">
+			<a href="#" class="btn_lnbToggle">닫기</a>
+		</div>
+	</div>
+	<div id="container_menu">
+		<div id="lnb_menu">
+			<ul class="lnbMenu">
+				<li>
+					<a href="#">수용가</br>종합정보</a>
+				</li>
+				<li>
+					<a href="#">검침현황</a>
+				</li>
+				<li>
+					<a href="#">검침집계</a>
+				</li>
+				<li>
+					<a href="#">검침내역</a>
+				</li>
+				<li>
+					<a href="#">최소유량</a>
+				</li>
+				<li>
+					<a href="#">과금조회</a>
+				</li>
+				<li><a href="#">부가기능</a>
+					<ul>
+						<li><a href="#">미량<br/>누수검침</a></li>
+						<li><a href="#">대량<br/>누수검침</a></li>
+						<li><a href="#">독거노인케어</a></li>
+					</ul>
+				</li>
+				<li><a href="#">설정</a>
+					<ul>
+						<li><a href="#">운영자<br/>관리</a></li>
+						<li><a href="#">수용가<br/>관리</a></li>
+						<li><a href="#">미터기<br/>관리</a></li>
+						<li><a href="#">통신장비관리</a></li>
+						<li><a href="#">통신장비매핑관리</a></li>
+						<li><a href="#">미터기<br/>매핑관리</a></li>
+						<li><a href="#">수용가<br/>정보변환</a></li>
+					</ul>
+				</li>
+			</ul>
+			<!-- <a href="#" class="btn_lnbToggle">닫기</a> -->
+		</div>		
+	</div>
+</body>
+<script src="../js/chartjs/Chart.js"></script>
+<script src="../js/chartjs/Chart.bundle.js"></script>
+<script src="../js/chartjs/utils.js"></script>
+<script type="text/javascript" src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=5492ad70208b040b30e916f908039c0b"></script>
+<script>
+var mapContainer = document.getElementById('daumMap'), // 지도를 표시할 div 
+	mapOption = { 
+		center: new kakao.maps.LatLng(36.34423765050919, 126.59939611306233), // 지도의 중심좌표
+		level: 10 // 지도의 확대 레벨
+	};
+// 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
+var map = new kakao.maps.Map(mapContainer, mapOption); 	
+$.getJSON("../json/GeoJSON4_bak.json", function(geojson){
+	var data = geojson.features;
+	var name = '';            //행정구 명
+	var code = '';
+	$.each(data, function(index, val) {
+		name = val.properties.SIG_KOR_NM;
+		code = val.properties.SIG_CD;
+		// if(code == "44180"){
+			if(val.geometry.type == "MultiPolygon") {
+				displayArea(name, code, val.geometry.coordinates, true);
+			}
+			else {
+				displayArea(name, code, val.geometry.coordinates, false);
+			}
+		// }
+	});
+});
+
+
+function makePolygon(coordinates) {
+	var polygonPath = []; 
+
+	$.each(coordinates[0], function(index, coordinate)  {
+		polygonPath.push(new kakao.maps.LatLng(coordinate[1], coordinate[0]));
+	});
+
+	return new kakao.maps.Polygon({
+		path:polygonPath, 
+		strokeWeight: 3.3,
+		strokeColor: '#2495cf', 
+		strokeOpacity: 0.8, 
+		strokeStyle: 'solid', 
+		fillColor: '#A2FF99', 
+		fillOpacity: 0.0
+	});
+}
+
+
+function makeMultiPolygon(coordinates){
+	var polygonPath = []; 
+	$.each(coordinates, function(index, val2){
+		var coordinates2 = [];
+		$.each(val2[0], function(index2, coordinate) {
+			coordinates2.push(new kakao.maps.LatLng(coordinate[1], coordinate[0]));
+		});
+		polygonPath.push(coordinates2);
+	});
+
+	return new kakao.maps.Polygon({
+		path:polygonPath,
+		strokeWeight: 3.3,
+		strokeColor: '#2495cf',
+		strokeOpacity: 0.8, 
+		strokeStyle: 'solid',
+		fillColor: '#A2FF99', 
+		fillOpacity: 0.0
+	});
+}
+
+
+// params : 행정구 명, 도로명 코드, 좌표, 멀티폴리곤 유무
+function displayArea(name, code, coordinates, multi){
+	var polygon;
+	if(multi){
+		polygon = makeMultiPolygon(coordinates);
+	}else{
+		polygon = makePolygon(coordinates);
+	}
+	polygon.setMap(map);
+}
+	
+</script>
+<!-- Line Chart -->
+<script>
+	var s = 0;
+	var e = 8;
+	var MONTHS = ['0', '4', '8', '12', '16', '20', '24'];
+	var config = {
+		type: 'line',
+		data: {
+			labels: ['0', '4', '8', '12', '16', '20', '24'],
+			datasets: [{
+				label: '일주일 평균',
+				backgroundColor: window.chartColors.red,
+				borderColor: window.chartColors.red,
+				data: [
+					randomScalingFactor_kms(s, e),
+					randomScalingFactor_kms(s, e),
+					randomScalingFactor_kms(s, e),
+					randomScalingFactor_kms(s, e),
+					randomScalingFactor_kms(s, e),
+					randomScalingFactor_kms(s, e),
+					randomScalingFactor_kms(s, e)
+				],
+				fill: false,
+			}, {
+				label: '오늘',
+				fill: false,
+				backgroundColor: window.chartColors.blue,
+				borderColor: window.chartColors.blue,
+				data: [
+					randomScalingFactor_kms(s, e),
+					randomScalingFactor_kms(s, e),
+					randomScalingFactor_kms(s, e),
+					randomScalingFactor_kms(s, e),
+					randomScalingFactor_kms(s, e),
+					randomScalingFactor_kms(s, e),
+					randomScalingFactor_kms(s, e)
+				],
+			}]
+		},
+		options: {
+			layout: {
+				padding : {
+					left : 10
+				}
+			},
+			legend: {
+				labels: {
+					fontSize: 9
+				}
+			},			
+			responsive: true,
+			title: {
+				display: true,
+				position : "average",
+				text: 'Chart.js Line Chart'
+				
+			},
+			tooltips: {
+				mode: 'index',
+				intersect: false,
+			},
+			hover: {
+				mode: 'index',
+				intersect: true
+			},
+			scales: {
+				xAxes: [{
+					display: true,
+					scaleLabel: {
+						// display: true,
+						// labelString: 'Month'
+					}
+				}],
+				yAxes: [{
+					display: true,
+					scaleLabel: {
+						// display: true,
+						// labelString: 'Value'
+					}
+				}]
+			}
+		}
+	};
+	// window.onload = function() {
+		var ctx = document.getElementById('line_canvas').getContext('2d');
+		window.myLine = new Chart(ctx, config);
+	// };
+	var colorNames = Object.keys(window.chartColors);
+</script>
+<script>
+	var s = 0;
+	var e = 100;	
+	var start = randomScalingFactor_kms(s, e);
+	var end = randomScalingFactor_kms(s, e);
+	var MONTHS = [""];
+	var color = Chart.helpers.color;
+	var horizontalBarChartData = {
+		labels: [""],
+		datasets: 
+		[
+			{
+				label: start,
+				backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+				borderColor:  window.chartColors.red,
+				borderWidth: 1,
+				data: [ start ]
+			}
+			,
+			{
+				label: end,
+				backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
+				borderColor:  window.chartColors.blue,
+				// borderWidth: 1,
+				data: [ end ]
+			}			
+		]
+	};
+	var ctx = document.getElementById("bar_canvas_1").getContext("2d");
+	window.myHorizontalBar = new Chart(ctx, {
+		type: 'horizontalBar',
+		data: horizontalBarChartData,
+		options: {
+			// Elements options apply to all of the options unless overridden in a dataset
+			// In this case, we are setting the border of each horizontal bar to be 2px wide
+			elements: {
+				rectangle: {
+					borderWidth: 2,
+				}
+			},
+			responsive: true,
+			legend: {
+				position: 'right'
+			},
+			// title: {
+				// display: true,
+				// text: 'Chart.js Horizontal Bar Chart'
+			// },
+			layout: {
+				padding : {
+					left : 10,
+					top : -35
+				}
+			},
+			scales: {
+				xAxes: [{
+					ticks: {
+						beginAtZero: true,
+						max: 100,
+            			min: 0,		
+					}
+				}]
+			}
+		}
+	});
+	var colorNames = Object.keys(window.chartColors);
+</script>
+<script>
+	var s = 0;
+	var e = 100;	
+	var _start = randomScalingFactor_kms(s, e);
+	var _end = randomScalingFactor_kms(s, e);
+	var MONTHS = [""];
+	var color = Chart.helpers.color;
+	var horizontalBarChartData = {
+		labels: [""],
+		datasets: 
+		[
+			{
+				label: _start,
+				backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+				borderColor:  window.chartColors.red,
+				borderWidth: 1,
+				data: [ _start ]
+			}
+			,
+			{
+				label: _end,
+				backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
+				borderColor:  window.chartColors.blue,
+				// borderWidth: 1,
+				data: [ _end ]
+			}			
+		]
+	};
+	var ctx = document.getElementById("bar_canvas_2").getContext("2d");
+	window.myHorizontalBar = new Chart(ctx, {
+		type: 'horizontalBar',
+		data: horizontalBarChartData,
+		options: {
+			// Elements options apply to all of the options unless overridden in a dataset
+			// In this case, we are setting the border of each horizontal bar to be 2px wide
+			elements: {
+				rectangle: {
+					borderWidth: 2,
+				}
+			},
+			responsive: true,
+			legend: {
+				position: 'right',
+			},
+			// title: {
+				// display: true,
+				// text: 'Chart.js Horizontal Bar Chart'
+			// },
+			layout: {
+				padding : {
+					left : 10,
+					top : -35
+				}
+			},
+			scales: {
+				xAxes: [{
+					ticks: {
+						beginAtZero: true,
+						max: 100,
+						min: 0,		
+					}
+				}]
+			}
+		}
+	});
+	var colorNames = Object.keys(window.chartColors);
+	//chrome.exe --disable-web-security --allow-file-access-from-filesexit
+</script>
+</html>

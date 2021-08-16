@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>한국이앤디</title>
+<link rel="stylesheet" type="text/css" href="../css/base.css" />
+<link rel="stylesheet" type="text/css" href="../css/content.css" />
+<script src="../js/jquery.min.js"></script>
+<script src="../js/jquery-ui.min.js"></script>
+<script src="../js/jquery.plugin.js"></script>
+<script src="../js/common.js"></script>
+<style>
+    canvas {
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+    }
+	.chartjs-wrapper canvas {
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+	}
+</style>
+<script>
+	var fnLeftUse = function(){
+		var left = $("[name=lnb_left]").css("left").replace("px","");
+		console.log(left);
+		if(left >= 0){
+			$("[name=lnb_left]").css("left", "-477px");
+			$("#identifyBtn").css("right", "0px");
+		}else{
+			$("[name=lnb_left]").css("left", "0px");
+			$("#identifyBtn").css("right", "-407px");
+		}
+	}
+</script>
+</head>
+<body style="overflow: hidden;">
+<div id="wrap">
+	<div id="container_left" >
+		<!-- 컨테이너영역 -->
+		<div id="content_map">
+			<div id="daumMap" style="width:100%;height: 968px;"></div>
+		</div>					
+		<div id="lnb" style="top: 0px;height: 100px;background: #2495cf;">
+			<div>
+				<div class="cont-head">
+					<div style="height:60px; background: #2495cf;">
+						<h1 class="cont-title"
+						style="    margin: 0px 20px 0;
+						/* border-bottom: solid 1px #666; */
+						line-height: 55px;;
+						font-size: 20px;
+						font-weight: 500;
+						color: #fff;
+						letter-spacing: -1px;
+						">관리자(admin)</h1>
+						<div class="hTop" style="top: 0px;    position: absolute;right: 0px;">
+							<ul>						
+								<li class="logout"><a href="#n" style="display: inline-block;
+									width: 66px;
+									height: 60px;
+									line-height: 60px;
+									text-indent: -9999em;
+									background: url(../images/btn_logout.png) no-repeat center center;">로그아웃</a></li>	
+							</ul>
+						</div>
+						
+					</div>
+					<div style="height:40px; background: #227cab;">
+						<h1 class="cont-title"
+						style="    margin: 0px 20px 0;
+						/* border-bottom: solid 1px #666; */
+						line-height: 39px;
+						font-size: 20px;
+						font-weight: 500;
+						color: #fff;
+						letter-spacing: -1px;
+						">검침현황</h1>
+					</div>					
+				</div>
+			</div>			
+		</div>
+		<div id="lnb" style="top: 100px;">
+			<div>
+			</div>	
+			<a href="#" class="btn_lnbToggle">닫기</a>			
+		</div>
+		</div>
+		<div id="lnb" name="lnb_left" style="left:10px;top: 10px;height: 85px;border-radius: 5px;
+		background-color: #fff;
+		box-shadow: 0 1px 4px 0 rgb(0 0 0 / 10%);">
+			<div style="width:390px;position: fixed;"> 
+				<canvas id="line_canvas" width="500" height="90" ></canvas>
+			</div>
+		</div>	
+		<div id="lnb" name="lnb_left" style="left:10px;top: 105px;height: 85px;border-radius: 5px;
+		background-color: #fff;
+		box-shadow: 0 1px 4px 0 rgb(0 0 0 / 10%);">
+			<div style="width:390px;position: fixed;" >
+				<canvas id="bar_canvas_1" width="500" height="90" ></canvas>
+			</div>
+		</div>
+		</div>
+		<div id="lnb" name="lnb_left" style="left:10px;top: 200px;height: 85px;border-radius: 5px;
+		background-color: #fff;
+		box-shadow: 0 1px 4px 0 rgb(0 0 0 / 10%);">
+			<div style="width:390px;position: fixed;" >
+				<canvas id="bar_canvas_2" width="500" height="90" ></canvas>
+			</div>		
+		</div>
+			<div class="" style="background-size: contain;
+			text-indent: -999px;
+			overflow: hidden;
+			width: 25px;
+			height: 62px;">리스트 작게보기</div>
+	</div>
+	<div id="container_menu" >
+		<div id="lnb_menu" style="top: 0px;">
+			<ul class="lnbMenu">
+				<li>
+					<a href="#">수용가</br>종합정보</a>
+				</li>
+				<li>
+					<a href="#">검침현황</a>
+				</li>
+				<li>
+					<a href="#">검침집계</a>
+				</li>
+				<li>
+					<a href="#">검침내역</a>
+				</li>
+				<li>
+					<a href="#">최소유량</a>
+				</li>
+				<li>
+					<a href="#">과금조회</a>
+				</li>
+				<li><a href="#">부가기능</a>
+					<ul>
+						<li><a href="#">미량<br/>누수검침</a></li>
+						<li><a href="#">대량<br/>누수검침</a></li>
+						<li><a href="#">독거노인케어</a></li>
+					</ul>
+				</li>
+				<li><a href="#">설정</a>
+					<ul>
+						<li><a href="#">운영자<br/>관리</a></li>
+						<li><a href="#">수용가<br/>관리</a></li>
+						<li><a href="#">미터기<br/>관리</a></li>
+						<li><a href="#">통신장비관리</a></li>
+						<li><a href="#">통신장비매핑관리</a></li>
+						<li><a href="#">미터기<br/>매핑관리</a></li>
+						<li><a href="#">수용가<br/>정보변환</a></li>
+					</ul>
+				</li>
+			</ul>
+			<!-- <a href="#" class="btn_lnbToggle">닫기</a> -->
+		</div>		
+	</div>
+</body>
+<script src="../js/chartjs/Chart.js"></script>
+<script src="../js/chartjs/Chart.bundle.js"></script>
+<script src="../js/chartjs/utils.js"></script>
+<script type="text/javascript" src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=5492ad70208b040b30e916f908039c0b"></script>
+<script>
+var mapContainer = document.getElementById('daumMap'), // 지도를 표시할 div 
+	mapOption = { 
+		center: new kakao.maps.LatLng(36.34423765050919, 126.59939611306233), // 지도의 중심좌표
+		level: 10 // 지도의 확대 레벨
+	};
+// 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
+var map = new kakao.maps.Map(mapContainer, mapOption); 	
+$.getJSON("../json/GeoJSON4_bak.json", function(geojson){
+	var data = geojson.features;
+	var name = '';            //행정구 명
+	var code = '';
+	$.each(data, function(index, val) {
+		name = val.properties.SIG_KOR_NM;
+		code = val.properties.SIG_CD;
+		if(code == "44180"){
+			if(val.geometry.type == "MultiPolygon") {
+				displayArea(name, code, val.geometry.coordinates, true);
+			}
+			else {
+				displayArea(name, code, val.geometry.coordinates, false);
+			}
+		}
+	});
+});
+
+
+function makePolygon(coordinates) {
+	var polygonPath = []; 
+
+	$.each(coordinates[0], function(index, coordinate)  {
+		polygonPath.push(new kakao.maps.LatLng(coordinate[1], coordinate[0]));
+	});
+
+	return new kakao.maps.Polygon({
+		path:polygonPath, 
+		strokeWeight: 3.3,
+		strokeColor: '#2495cf', 
+		strokeOpacity: 0.8, 
+		strokeStyle: 'solid', 
+		fillColor: '#A2FF99', 
+		fillOpacity: 0.0
+	});
+}
+
+
+function makeMultiPolygon(coordinates){
+	var polygonPath = []; 
+	$.each(coordinates, function(index, val2){
+		var coordinates2 = [];
+		$.each(val2[0], function(index2, coordinate) {
+			coordinates2.push(new kakao.maps.LatLng(coordinate[1], coordinate[0]));
+		});
+		polygonPath.push(coordinates2);
+	});
+
+	return new kakao.maps.Polygon({
+		path:polygonPath,
+		strokeWeight: 3.3,
+		strokeColor: '#2495cf',
+		strokeOpacity: 0.8, 
+		strokeStyle: 'solid',
+		fillColor: '#A2FF99', 
+		fillOpacity: 0.0
+	});
+}
+
+
+// params : 행정구 명, 도로명 코드, 좌표, 멀티폴리곤 유무
+function displayArea(name, code, coordinates, multi){
+	var polygon;
+	if(multi){
+		polygon = makeMultiPolygon(coordinates);
+	}else{
+		polygon = makePolygon(coordinates);
+	}
+	polygon.setMap(map);
+}
+	
+</script>
+<!-- Line Chart -->
+<script>
+	var s = 0;
+	var e = 8;
+	var MONTHS = ['0', '4', '8', '12', '16', '20', '24'];
+	var config = {
+		type: 'line',
+		data: {
+			labels: ['0', '4', '8', '12', '16', '20', '24'],
+			datasets: [{
+				label: '일주일 평균',
+				ill: false,
+				backgroundColor: window.chartColors.red,
+				borderColor: window.chartColors.red,
+				data: [
+					randomScalingFactor_kms(s, e),
+					randomScalingFactor_kms(s, e),
+					randomScalingFactor_kms(s, e),
+					randomScalingFactor_kms(s, e),
+					randomScalingFactor_kms(s, e),
+					randomScalingFactor_kms(s, e),
+					randomScalingFactor_kms(s, e)
+				],
+				fill: false,
+			}, {
+				label: '오늘',
+				fill: false,
+				backgroundColor: window.chartColors.blue,
+				borderColor: window.chartColors.blue,
+				data: [
+					randomScalingFactor_kms(s, e),
+					randomScalingFactor_kms(s, e),
+					randomScalingFactor_kms(s, e),
+					randomScalingFactor_kms(s, e),
+					randomScalingFactor_kms(s, e),
+					randomScalingFactor_kms(s, e),
+					randomScalingFactor_kms(s, e)
+				],
+			}]
+		},
+		options: {
+			layout: {
+				padding : {
+					left : 10
+				}
+			},
+			legend: {
+				labels: {
+					fontSize: 12
+				}
+			},			
+			responsive: true,
+			title: {
+				display: true,
+				position : "average",
+				text: '현재 사용량'
+				
+			},
+			tooltips: {
+				mode: 'index',
+				intersect: false,
+			},
+			hover: {
+				mode: 'index',
+				intersect: true
+			},
+			scales: {
+				xAxes: [{
+					display: true,
+					scaleLabel: {
+						// display: true,
+						// labelString: 'Month'
+					}
+				}],
+				yAxes: [{
+					display: true,
+					scaleLabel: {
+						// display: true,
+						// labelString: 'Value'
+					}
+				}]
+			}
+		}
+	};
+	
+	// window.onload = function() {
+		var ctx = document.getElementById('line_canvas').getContext('2d');
+		window.myLine = new Chart(ctx, config);
+	// };
+	var colorNames = Object.keys(window.chartColors);
+</script>
+<script>
+	var s = 0;
+	var e = 100;	
+	var start = randomScalingFactor_kms(s, e);
+	var end = randomScalingFactor_kms(s, e);
+	var MONTHS = [""];
+	var color = Chart.helpers.color;
+	var horizontalBarChartData = {
+		labels: [""],
+		datasets: 
+		[
+			{
+				label: start,
+				backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+				borderColor:  window.chartColors.red,
+				borderWidth: 1,
+				data: [ start ]
+			}
+			,
+			{
+				label: end,
+				backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
+				borderColor:  window.chartColors.blue,
+				borderWidth: 1,
+				data: [ end ]
+			}			
+		]
+	};
+	var ctx = document.getElementById("bar_canvas_1").getContext("2d");
+	window.myHorizontalBar = new Chart(ctx, {
+		type: 'horizontalBar',
+		data: horizontalBarChartData,
+		options: {
+			// Elements options apply to all of the options unless overridden in a dataset
+			// In this case, we are setting the border of each horizontal bar to be 2px wide
+			elements: {
+				rectangle: {
+					borderWidth: 2,
+				}
+			},
+			responsive: true,
+			legend: {
+				position: 'left',
+			},
+			title: {
+				display: true,
+				text: '일간 사용량'
+			},
+			layout: {
+				padding : {
+					left : 10,
+				}
+			},
+			scales: {
+				xAxes: [{
+					ticks: {
+						beginAtZero: true,
+						max: 100,
+            			min: 0,		
+					}
+				}]
+			}
+		}
+	});
+	var colorNames = Object.keys(window.chartColors);
+</script>
+<script>
+	var s = 0;
+	var e = 100;	
+	var _start = randomScalingFactor_kms(s, e);
+	var _end = randomScalingFactor_kms(s, e);
+	var MONTHS = [""];
+	var color = Chart.helpers.color;
+	var horizontalBarChartData = {
+		labels: [""],
+		datasets: 
+		[
+			{
+				label: _start,
+				backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+				borderColor:  window.chartColors.red,
+				borderWidth: 1,
+				data: [ _start ]
+			}
+			,
+			{
+				label: _end,
+				backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
+				borderColor:  window.chartColors.blue,
+				// borderWidth: 1,
+				data: [ _end ]
+			}			
+		]
+	};
+		var ctx = document.getElementById("bar_canvas_2").getContext("2d");
+		window.myHorizontalBar = new Chart(ctx, {
+			type: 'horizontalBar',
+			data: horizontalBarChartData,
+			options: {
+				// Elements options apply to all of the options unless overridden in a dataset
+				// In this case, we are setting the border of each horizontal bar to be 2px wide
+				elements: {
+					rectangle: {
+						borderWidth: 2,
+					}
+				},
+				responsive: true,
+				legend: {
+					position: 'left',
+				},
+				title: {
+					display: true,
+					text: '월간 사용량'
+				},
+				layout: {
+					padding : {
+						left : 10,
+					}
+				},
+				scales: {
+					xAxes: [{
+						ticks: {
+							beginAtZero: true,
+							max: 100,
+							min: 0,		
+						}
+					}]
+				}
+			}
+		});
+	var colorNames = Object.keys(window.chartColors);
+</script>
+</html>

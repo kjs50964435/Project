@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>디앤디플랫폼</title>
+<link rel="stylesheet" type="text/css" href="../css/base.css" />
+<link rel="stylesheet" type="text/css" href="../css/content.css" />
+<script src="../js/jquery.min.js"></script>
+<script src="../js/jquery-ui.min.js"></script>
+<script src="../js/jquery.plugin.js"></script>
+<script src="../js/common.js"></script>
+<script>
+	$(function(){
+		$(".btn_winPopOpen").click(function(e){
+			e.preventDefault();
+			winPopOpen();
+		});
+	});
+
+	function winPopOpen(){
+		var url="modal_pop.html";
+		window.open(url,"","width=700,height=500");
+	}
+</script>
+</head>
+<body>
+
+<div id="wrap">
+	<!-- 상단영역 -->
+	<div id="header">
+		<h1 class="logo"><a href="#n">(주)디앤디플랫폼</a><span>서비스 네임</span></h1>
+		<div class="hTop">
+			<ul>
+				<li class="pic"><img src="" alt="" /></li> <!-- 사진영역 -->
+				<li class="info">
+					<span>관리자(admin)</span>
+					<span class="date">2019. 04. 23.</span>
+				</li>
+				<li class="logout"><a href="#n">로그아웃</a></li>
+			</ul>
+		</div>
+	</div>
+	<!-- //상단영역 -->
+
+	<!-- 컨테이너영역 -->
+	<div id="container">
+		<!-- 좌측영역 -->
+		<div id="lnb">
+			<ul class="lnbMenu">
+				<li><a href="#">1Depth</a>
+					<ul>
+						<li class="depth2"><a href="#">2Depth</a>
+							<ul>
+								<li><a href="#">3Depth</a></li>
+								<li><a href="#">3Depth</a></li>
+								<li><a href="#">3Depth</a></li>
+								<li><a href="#">3Depth</a></li>
+								<li><a href="#" class="last">3Depth</a></li>
+							</ul>
+						</li>
+						<li class="depth2"><a href="#">2Depth</a>
+							<ul>
+								<li><a href="#">3Depth</a></li>
+								<li><a href="#">3Depth</a></li>
+								<li><a href="#" class="last">3Depth</a></li>
+							</ul>
+						</li>
+						<li class="depth2"><a href="#">2Depth</a>
+							<ul>
+								<li><a href="#">3Depth</a></li>
+								<li><a href="#">3Depth</a></li>
+								<li><a href="#" class="last">3Depth</a></li>
+							</ul>
+						</li>
+						<li class="depth2"><a href="#">2Depth</a>
+							<ul>
+								<li><a href="#">3Depth</a></li>
+								<li><a href="#">3Depth</a></li>
+								<li><a href="#" class="last">3Depth</a></li>
+							</ul>
+						</li>
+						<li class="depth2"><a href="#">2Depth</a>
+							<ul>
+								<li><a href="#">3Depth</a></li>
+								<li><a href="#">3Depth</a></li>
+								<li><a href="#" class="last">3Depth</a></li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+				<li><a href="#">1Depth</a>
+					<ul>
+						<li><a href="#">2Depth</a></li>
+						<li><a href="#">2Depth</a></li>
+					</ul>
+				</li>
+				<li><a href="#">1Depth</a>
+					<ul>
+						<li><a href="#">2Depth</a></li>
+						<li><a href="#">2Depth</a></li>
+					</ul>
+				</li>
+				<li><a href="#">1Depth</a>
+					<ul>
+						<li><a href="#">2Depth</a></li>
+						<li><a href="#">2Depth</a></li>
+					</ul>
+				</li>
+				<li><a href="#">1Depth</a>
+					<ul>
+						<li><a href="#">2Depth</a></li>
+						<li><a href="#">2Depth</a></li>
+					</ul>
+				</li>
+				<li><a href="#">1Depth</a>
+					<ul>
+						<li><a href="#">2Depth</a></li>
+						<li><a href="#">2Depth</a></li>
+					</ul>
+				</li>
+				<li><a href="#">1Depth</a>
+					<ul>
+						<li><a href="#">2Depth</a></li>
+						<li><a href="#">2Depth</a></li>
+					</ul>
+				</li>
+				<li><a href="#">1Depth</a>
+					<ul>
+						<li><a href="#">2Depth</a></li>
+						<li><a href="#">2Depth</a></li>
+					</ul>
+				</li>
+				<li><a href="#">1Depth</a>
+					<ul>
+						<li><a href="#">2Depth</a></li>
+						<li><a href="#">2Depth</a></li>
+					</ul>
+				</li>
+				<li><a href="#">1Depth</a>
+					<ul>
+						<li><a href="#">2Depth</a></li>
+						<li><a href="#">2Depth</a></li>
+					</ul>
+				</li>
+				<li><a href="#">1Depth</a>
+					<ul>
+						<li><a href="#">2Depth</a></li>
+						<li><a href="#">2Depth</a></li>
+					</ul>
+				</li>
+				<li><a href="#">1Depth</a>
+					<ul>
+						<li><a href="#">2Depth</a></li>
+						<li><a href="#">2Depth</a></li>
+					</ul>
+				</li>
+				<li><a href="#">1Depth</a>
+					<ul>
+						<li><a href="#">2Depth</a></li>
+						<li><a href="#">2Depth</a></li>
+					</ul>
+				</li>
+			</ul>
+			<a href="#" class="btn_lnbToggle">닫기</a>
+		</div>
+		<!-- //좌측영역 -->
+
+		<!-- 컨텐츠 -->
+		<div id="content">
+			<div class="contentInfo">
+				<div class="contentTitle">
+					<h3>타이틀영역</h3>
+					<ul class="lnb3DeptMenu">
+						<li><a href="#n">3Depth menu</a></li>
+						<li><a href="#n">3Depth menu</a></li>
+						<li><a href="#n">3Depth menu</a></li>
+						<li><a href="#n">3Depth menu</a></li>
+						<li><a href="#n">3Depth menu</a></li>
+					</ul>
+				</div>
+			</div>
+
+			<h4>레이어팝업</h4>
+			<p>사이즈 별로 클래스 제공</p><br />
+			<!-- 레이어팝업 실행 버튼 -->
+			<div class="tableBox">
+				<table class="form">
+					<colgroup>
+						<col class="w30p">
+						<col>
+					</colgroup>
+					<tbody>
+						<tr>
+							<th scope="row">기본 :<br />modalWrap 클래스</th>
+							<td><a href="#modal1" class="btn_inline popline btn_modalOpen">팝업열기</a></td>
+						</tr>
+						<tr>
+							<th scope="row">폭이 좁은형 :<br />modalWrap 클래스에 small 클래스 추가</th>
+							<td><a href="#modal2" class="btn_inline popline btn_modalOpen">팝업열기</a></td>
+						</tr>
+						<tr>
+							<th scope="row">와이드형 :<br />modalWrap 클래스에 wide 클래스 추가</th>
+							<td><a href="#modal3" class="btn_inline popline btn_modalOpen">팝업열기</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<!-- //레이어팝업 실행 버튼 -->
+
+			<h4>윈도우팝업</h4>
+			<!-- 윈도우팝업 실행 버튼 -->
+			<div class="tableBox">
+				<table class="form">
+					<colgroup>
+						<col class="w30p">
+						<col>
+					</colgroup>
+					<tbody>
+						<tr>
+							<th scope="row">기본 :<br />winPopWrap 클래스</th>
+							<td><a href="#winPop" class="btn_inline popline btn_winPopOpen">팝업열기</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<!-- //윈도우팝업 실행 버튼 -->
+			
+			
+			
+		</div>
+		<!-- //컨텐츠 -->
+	</div>
+</div>
+
+<!-- 레이어팝업1 -->
+<div id="modal1" class="modalWrap">
+	<div class="popTitle">
+		<h3>제목</h3>
+		<a href="#" class="btn_modalClose">모달팝업 닫기</a>
+	</div>
+	<div class="popContent">
+		컨텐츠<br />컨텐츠<br />컨텐츠<br />컨텐츠<br />컨텐츠<br />컨텐츠<br />컨텐츠<br />컨텐츠<br />컨텐츠<br />컨텐츠<br />
+		<div class="btnArea">
+			<a href="#" class="btn_m">저장</a>
+			<a href="#" class="btn_m btn_modalClose">닫기</a>
+		</div>
+	</div>
+</div>
+<!-- //레이어팝업1 -->
+
+<!-- 레이어팝업2 -->
+<div id="modal2" class="modalWrap small">
+	<div class="popTitle">
+		<h3>제목</h3>
+		<a href="#" class="btn_modalClose">모달팝업 닫기</a>
+	</div>
+	<div class="popContent">
+		컨텐츠<br />컨텐츠<br />컨텐츠<br />컨텐츠<br />컨텐츠<br />컨텐츠<br />컨텐츠<br />컨텐츠<br />컨텐츠<br />컨텐츠<br />
+		<div class="btnArea">
+			<a href="#" class="btn_m">저장</a>
+			<a href="#" class="btn_m btn_modalClose">닫기</a>
+		</div>
+	</div>
+</div>
+<!-- //레이어팝업2 -->
+
+<!-- 레이어팝업3 -->
+<div id="modal3" class="modalWrap wide">
+	<div class="popTitle">
+		<h3>제목</h3>
+		<a href="#" class="btn_modalClose">모달팝업 닫기</a>
+	</div>
+	<div class="popContent">
+		컨텐츠<br />컨텐츠<br />컨텐츠<br />컨텐츠<br />컨텐츠<br />컨텐츠<br />컨텐츠<br />컨텐츠<br />컨텐츠<br />컨텐츠<br />
+		<div class="btnArea">
+			<a href="#" class="btn_m">저장</a>
+			<a href="#" class="btn_m btn_modalClose">닫기</a>
+		</div>
+	</div>
+</div>
+<!-- //레이어팝업3 -->
+
+<div id="overlay"></div>
+</body>
+</html>

@@ -1,0 +1,33 @@
+@charset "utf-8";
+
+/* ********************************************************************
+etc
+********************************************************************* */
+.keyWordList{position:relative;margin-bottom:20px;padding:5px 10px;background:#fff;box-sizing:border-box;border:1px solid #ddd;border-radius:2px;}
+.keyWordList ul:after{display:block;content:"";clear:both;}
+.keyWordList ul > li{float:left;width:16.66%;padding:10px;box-sizing:border-box;}
+.keyWordList ul > li > a{display:block;width:100%;padding:5px;text-align:center;color:#666;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;box-sizing:border-box;border:1px solid #ccc;}
+.keyWordList ul > li.on > a{color:#333;background:#f0f1f2;}
+
+.messageBox{position:relative;margin-bottom:20px;padding:15px 10px;background:#fff;box-sizing:border-box;border:1px solid #ddd;border-radius:2px;}
+.messageBox ul:after{display:block;content:"";clear:both;}
+.messageBox ul > li{float:left;width:25%;text-align:center;}
+.messageBox ul > li .icon{display:inline-block;width:50px;height:50px;border:1px solid #ccc;border-radius:25px;vertical-align:middle;}
+.messageBox ul > li .info{display:inline-block;margin-left:10px;vertical-align:middle;}
+.messageBox ul > li .info span{font-size:16px;}
+.messageBox ul > li .info strong{display:block;margin-top:5px;font-size:18px;}
+
+/* ********************************************************************
+login
+********************************************************************* */
+#wrap.loginWrap{width:100%;height:100%;background:url(../images/login_bg.png) 0 0 no-repeat;background-size:cover;}
+.loginBox{width:100%;height:100%;position:absolute;top:50%;left:50%;width:900px;height:440px;margin:-220px 0 0 -450px;z-index:100;background:#fff;}
+.loginBox:after{display:block;content:"";clear:both;}
+.loginBox .loginPic{float:left;width:450px;height:440px;border:1px solid #ccc;box-sizing:border-box;}
+.loginBox .loginForm{float:left;width:450px;height:440px;border:1px solid #ccc;border-left:0;box-sizing:border-box;}
+.loginBox .loginForm ul{position:relative;width:300px;margin:90px auto 15px;}
+.loginBox .loginForm ul li{padding:5px 0;}
+.loginBox .loginForm ul li input[type="text"],
+.loginBox .loginForm ul li select,
+.loginBox .loginForm ul li input[type="password"]{display:inline-block;width:300px;height:40px;padding-left:10px;line-height:40px;font-size:15px;border:1px solid #cfcfcf;box-sizing:border-box;}
+.loginBox .loginForm .loginSubmit{display:block;margin:0 auto;width:300px;height:50px;line-height:50px;font-size:18px;font-weight:700;text-align:center;color:#fff;border:0;border-radius:3px;background-color:#005bac;}
