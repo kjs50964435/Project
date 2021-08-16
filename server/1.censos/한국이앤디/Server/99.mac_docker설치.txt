@@ -1,0 +1,7 @@
+[ Mac Docker 설치 ]
+
+1. https://docs.docker.com/docker-for-mac/install/ 접속
+2. Mac with Intel chip 클릭하여 down
+3. down 된 docker.dmg 파일 설치
+
+
