@@ -1,0 +1,12 @@
+1. ubuntu-18.04.5-desktop-amd64.iso
+    - 파일다운로드 : http://mirror.kakao.com/ubuntu-releases/trusty/
+2. 우분투 iso 파일 설치
+3. 설치 시작 
+    - > 한국어 선택 > 키보드레이아웃 : 한국어 선택 > 네트워크 설정(wifi, ran)
+    - > 업데이트 및 소프트 웨어 : 일반 설치 , 설치 중 업데이트 , 업데이트와 서드파티 소프트웨어 선택
+    - > 디스크를 지우고 Ubuntu 설치 선택 > 바뀐점 디스크 : 계속하기
+    - > 거주지 서울 선택 > 사용자 정보 입력 ( 이름 : Project , 사용자 : user, 비밀번호 : user)
+
+
+
+

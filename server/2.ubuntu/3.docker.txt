@@ -1,0 +1,36 @@
+1. apt update 및 docker 설치 아래 순서대로 입력
+    - > $ sudo apt update
+    - > $ sudo apt install apt-transport-https ca-certificates curl software-properties-common
+    - > $ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    - > $ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+    - > $ sudo apt update
+    - > $ apt-cache policy docker-ce /* 설치 되어 있는지 확인 명령어 */
+    - > $ sudo apt install docker-ce /* 설치 명령어 */
+    - > $ sudo systemctl status docker /* 정상 실행 명령어 확인 */
+
+2. docker-compose 설치
+    - > $ sudo curl -L https://github.com/docker/compose/releases/download/1.25.0-rc2/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+    - > $ sudo chmod +x /usr/local/bin/docker-compose
+    - > $ sudo docker-compose --version
+    - > $ sudo usermod -aG docker $USER
+3. docker postgresql 설치
+    - > $ sudo docker pull postgres /* docker를 이용하여 postgres 설치 */
+    - > $ sudo docker run -p 5432:5432 --name postgres -e POSTGRES_PASSWORD=postgres -d postgres /* postgres 기본 설정 */
+    - > $ sudo docker ps -a /* 확인 */
+    - > 여기 까지 설정만 하면 postgresql 종료시 data는 보존되나 postgresql 삭제시 data도 같이 삭제된다.
+    - > 아래 설정으로 postgresql 삭제시에도 data가 보존되게 설정한다.
+    /* 삭제 명령어
+    - > $ sudo docker stop postgres
+    - > $ sudo docker rm postgres
+    - > $ sudo docker volume prune /* 모든 볼륨 삭제 */
+
+    */
+4. docker postgresql 삭제되어도 data 는 보존하도록 설정한다.
+    - > $ sudo docker stop postgres /* 기 설치 되어 있던 postgresql 중지 실행이 안되어 있다면 패스 */
+    - > $ sudo docker rm postgres /* 기 설치 되어 있던 postgresql 삭제 설치가 안되어 있다면 패스 */
+    - > $ sudo docker volume create pgdata /* docker volume 에 padata 를 생성한다. */
+    /* postgres 기본 설정 및 data 경로 설정 */
+    - > $ sudo docker run -p 5432:5432 --name postgres -e POSTGRES_PASSWORD=postgres -d -v ~/pgdata:/var/lib/postgresql/data postgres
+    - > $ sudo docker exec -it postgres /bin/bash /* posergres 접속 */
+    - > $ psql -U postgres /* posergres 접속 */
+
