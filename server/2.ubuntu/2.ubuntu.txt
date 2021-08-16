@@ -1,0 +1,20 @@
+1. root 로그인 설정
+    - > $ sudo passwd root
+    - > user 패워워드 입력 후 root 패스워드 입력 ( 비밀번호 : root )
+    - > root 의 경우 바로 접속하면 안되므로 여기까지만 작업
+    - > 만일 root 로그인이 필요하다면 $ greeter-show-manual-login=true 설정
+
+2. ifconfig & vim 설치
+    - > $ sudo apt-get install net-tools
+    - > $ sudo apt-get install vim
+
+3. ssh 설정
+    - > Virtualbox 프로그램 > 해당서버의 설정 > 네트워크 > 고급
+    - > | SSH | TCP | 127.0.0.1 | 2222 | 10.0.2.15 | 22 | 입력 및 확인
+    - > ssh 설치
+        > $ dpkg -l | grep openssh-server
+        > $ sudo apt-get install openssh-server
+        > $ sudo service ssh start
+    - > ssh 접속
+        > $ ssh user@127.0.0.1 -p 2222
+        > 정상 접속 확인

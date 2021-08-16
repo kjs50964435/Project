@@ -1,0 +1,37 @@
+version: "3.3"
+
+services:
+
+  webserver:
+    build: 
+      context: ./appserver
+    image: webserver
+    container_name: webserver
+    depends_on:
+      - mypostgres
+    ports:
+      - "8080:8080" 
+      - "80:8080"
+    networks:
+      - front-tier
+      - back-tier
+  mypostgres:
+    build:
+      context: ./database
+    image: postgresdb
+    container_name: postgresdb
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=ggal1701
+    volumes:
+      - type: volume
+        source: psql_data
+        target: /var/lib/postgresql/data 
+    networks:
+      - back-tier
+volumes:
+  psql_data:
+networks:
+  front-tier:
+  back-tier:
